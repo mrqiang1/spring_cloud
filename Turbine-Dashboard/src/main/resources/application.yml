@@ -1,0 +1,36 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/,http://localhost:8764/eureka/
+spring:
+  application:
+    name: hystrix-dashboard-turbine
+  zipkin:
+    base-url: http://localhost:9441
+  boot:
+    admin:
+    #服务端地址
+      client:
+        url:
+        - http://127.0.0.1:8843
+  sleuth:
+    sampler:
+      probability: 1.0
+server:
+  port: 8903
+turbine:
+  app-config: SERVICE-RIBBON-OR-FEIGN #定义了要监控的断路器服务
+  aggregator:
+    cluster-config:
+    - default #指定聚合哪些集群，多个使用”,”分割，默认为default。可使用http://.../turbine.stream?cluster={clusterConfig之一}访问 此处为default.
+  cluster-name-expression: new String("default") #指定集群名称，可以是三种类型的值
+  #- 默认表达式为appName；此时turbine.aggregator.clusterConfig需要配置想要监控的应用名称；
+  #- 当为default时，turbine.aggregator.clusterConfig可以不写，因为默认就是default；
+  # - 当为metadata[‘cluster’]时，假设想要监控的应用配置了eureka.instance.metadata-map.cluster: ABC，则需要配置，同时turbine.aggregator.clusterConfig: ABC
+  combine-host-port: true #turbine.combine-host-port参数设置为true，可以让同一主机上的服务通过主机名与端口号的组合来进行区分，默认情况下会以host来区分不同的服务，这会使得在本机调试的时候，本机上的不同服务聚合成一个服务来统计
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - "*"

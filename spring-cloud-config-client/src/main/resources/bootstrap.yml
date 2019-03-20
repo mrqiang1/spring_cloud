@@ -1,0 +1,46 @@
+spring: 
+  application: 
+    name: config-client
+  zipkin:
+    base-url: http://localhost:9441
+  sleuth:
+    sampler:
+      probability: 1.0
+  boot:
+    admin:
+    #服务端地址
+      client:
+        url:
+        - http://127.0.0.1:8843
+  cloud:
+    config:
+      label: master
+      profile: dev
+      #uri: http://localhost:8888/
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: config-server
+  rabbitmq:
+    addresses: 127.0.0.1
+    host: localhost #rabbitmq主机地址
+    port: 5762 #服务端口
+    username: wangwq20 #账号
+    password: wangwq20 #密码
+    virtual-host: / #虚拟主机
+
+server: 
+  port: 8881
+#spring 2.0 配置热更新时  除了在类上添加@RefreshScope外  还需要在配置文件中添加如下配置  并且  访问地址并不是1.0的/refresh了,而是/actuator/refresh
+management:
+  cloudfoundry: #是否开启基本的鉴权，默认为true
+    enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+        #- refresh,bus-refresh
+        - "*" #暴露所有接口 不安全
+  endpoint:
+    health:
+       show-details: ALWAYS

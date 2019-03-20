@@ -1,0 +1,38 @@
+spring: 
+  application: 
+    name: arisgo-eureka-client
+  zipkin:
+    base-url: http://localhost:9441
+  sleuth:
+    sampler:
+      probability: 1.0
+  boot:
+    admin:
+    #服务端地址
+      client:
+        url:
+        - http://127.0.0.1:8843
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - '*'
+  endpoint:
+    health:
+       show-details: ALWAYS
+server: 
+  port: 8763
+eureka: 
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/,http://localhost:8764/eureka/
+info:
+  app:
+    name: $name$
+    artifactId: $project.artifactId$
+    version: $project.version$
+    encoding: utf-8
+    description: $description$
+    java:
+      version: ${java.version}

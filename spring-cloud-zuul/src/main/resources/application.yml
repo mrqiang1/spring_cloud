@@ -1,0 +1,28 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/,http://localhost:8764/eureka/
+spring:
+  application:
+    name: spring-zuul
+  zipkin:
+    base-url: http://localhost:9441
+  boot:
+    admin:
+    #服务端地址
+      client:
+        url:
+        - http://127.0.0.1:8843
+  sleuth:
+    sampler:
+      probability: 1.0
+server:
+  port: 8094
+zuul:
+  routes: #简单配置两个路由， 一个路由到ribbon，一个路由到feign； 由于都注册到eureka服务中心，所以都用通过serviceId来发现服务具体地址， path是路由的地址映射关系
+    ribbon:
+      path: /api-ribbon/**
+      serviceId: SERVICE-RIBBON-OR-FEIGN
+    fegin:
+      path: /api-fegin/**
+      serviceId: SERVICE-RIBBON-OR-FEIGN

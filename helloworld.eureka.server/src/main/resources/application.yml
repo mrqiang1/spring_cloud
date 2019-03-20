@@ -1,0 +1,37 @@
+spring: 
+  application: 
+    name: arisgo-eureka
+  zipkin:
+    base-url: http://localhost:9441
+  sleuth:
+    sampler:
+      probability: 1.0
+  boot:
+    admin:
+    #服务端地址
+      client:
+        url:
+        - http://127.0.0.1:8843 
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - '*'
+  endpoint:
+    health:
+       show-details: ALWAYS    
+server: 
+  port: 8761
+eureka: 
+  instance: 
+    hostname: localhost-one
+    ip-address: true
+    instance-id: localhost-one
+    prefer-ip-address: true
+  client: 
+    registerWithEureka: false #表示是否注册自身到eureka服务器
+    fetchRegistry: true #表示是否从eureka服务器获取注册信息
+    service-url:
+      #defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://localhost-two:8764/eureka/

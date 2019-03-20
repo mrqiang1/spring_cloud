@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: service-ribbon-or-feign
+  zipkin:
+    base-url: http://localhost:9441
+  sleuth:
+    sampler:
+      probability: 1.0
+  boot:
+    admin:
+    #服务端地址
+      client:
+        url:
+        - http://127.0.0.1:8843
+server:
+  port: 8901
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/,http://localhost:8764/eureka/
+
+url: "http://ARISGO-EUREKA-CLIENT/"
+
+feign:
+  httpclient:
+    enabled: true #替换JDK原生的URLConnection发送HTTP请求
+  hystrix:
+    enabled: true #Spring Cloud之前的Brixton版本中，Feign是缺省是自动激活了断路器的，但最近的Dalston版本已经将缺省配置修改为禁止。
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - "*"
